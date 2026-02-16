@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+pystac-client
+odc-stac
+rioxarray
+geopandas
+shapely
+boto3
+numpy
