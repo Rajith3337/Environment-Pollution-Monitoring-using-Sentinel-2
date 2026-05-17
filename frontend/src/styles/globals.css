@@ -1,0 +1,315 @@
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #06080b;
+  --surface:   #0b0f14;
+  --panel:     #0f1520;
+  --panel2:    #141c28;
+  --border:    #1a2840;
+  --border2:   #243450;
+
+  --accent:     #00f0a8;
+  --accent-dim: rgba(0,240,168,0.10);
+  --accent2:    #38bdf8;
+  --accent2-dim: rgba(56,189,248,0.10);
+  --accent3:    #a78bfa;
+  --warn:       #fbbf24;
+  --danger:     #f87171;
+  --success:    #34d399;
+
+  --text:   #e0eaff;
+  --text2:  #a0b4cc;
+  --muted:  #4a6480;
+  --muted2: #2e4560;
+
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Outfit', sans-serif;
+
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.6);
+}
+
+html, body, #root {
+  height: 100%; width: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+}
+
+::-webkit-scrollbar { width: 3px; height: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* ── Animations ─────────────────────────────────────────────────────────── */
+@keyframes pulse-ring {
+  0%   { transform: scale(0.92); opacity: 0.9; }
+  50%  { transform: scale(1.18); opacity: 0.2; }
+  100% { transform: scale(0.92); opacity: 0.9; }
+}
+@keyframes spin         { to { transform: rotate(360deg); } }
+@keyframes spin-slow    { to { transform: rotate(360deg); } }
+@keyframes spin-rev     { to { transform: rotate(-360deg); } }
+@keyframes blink        { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes fadeUp       { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn       { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideInLeft  { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes slideInRight { from { opacity: 0; transform: translateX(12px);  } to { opacity: 1; transform: translateX(0); } }
+@keyframes shimmer      { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+@keyframes gradIn       { from { opacity: 0; transform: scale(0.995); } to { opacity: 1; transform: scale(1); } }
+@keyframes pulse-dot    { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+@keyframes float        { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes orbit        {
+  0%   { transform: rotate(0deg)   translateX(var(--r, 28px)) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(var(--r, 28px)) rotate(-360deg); }
+}
+@keyframes glow-pulse   {
+  0%,100% { box-shadow: 0 0 8px  var(--glow-color, #00f0a8), 0 0 16px var(--glow-color, #00f0a8); }
+  50%      { box-shadow: 0 0 20px var(--glow-color, #00f0a8), 0 0 40px var(--glow-color, #00f0a8); }
+}
+@keyframes scanline {
+  0%   { transform: translateY(-4px); opacity: 0; }
+  5%   { opacity: 0.6; }
+  95%  { opacity: 0.6; }
+  100% { transform: translateY(calc(100% + 4px)); opacity: 0; }
+}
+@keyframes bar-in       { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes number-up    { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes ripple       {
+  0%   { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+@keyframes dash-anim    {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes border-flow  {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes particle-rise {
+  0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0.8; }
+  100% { transform: translateY(-60px) translateX(var(--dx,8px)) scale(0); opacity: 0; }
+}
+
+/* ── Micro-animations ───────────────────────────────────────────────────── */
+@keyframes tick-pop {
+  0%   { transform: scale(0) rotate(-20deg); opacity: 0; }
+  60%  { transform: scale(1.3) rotate(5deg);  opacity: 1; }
+  100% { transform: scale(1)   rotate(0deg);  opacity: 1; }
+}
+@keyframes step-done {
+  0%   { background: transparent; }
+  40%  { background: rgba(0,240,168,0.12); }
+  100% { background: transparent; }
+}
+@keyframes log-line-in {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes counter-up {
+  from { opacity: 0; transform: translateY(8px) scale(0.8); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
+@keyframes results-ready {
+  0%, 100% { box-shadow: 0 0 8px rgba(0,240,168,0.08); border-color: rgba(0,240,168,0.35); }
+  50%      { box-shadow: 0 0 16px rgba(0,240,168,0.15); border-color: rgba(0,240,168,0.55); }
+}
+@keyframes radar-sweep {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes radar-ping {
+  0%   { transform: scale(0.6); opacity: 0.9; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+@keyframes data-stream {
+  0%   { opacity: 0; transform: translateY(-4px); }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(4px); }
+}
+@keyframes status-pulse {
+  0%, 100% { opacity: 1;   transform: scaleX(1);    }
+  50%       { opacity: 0.6; transform: scaleX(0.97); }
+}
+@keyframes icon-bounce {
+  0%, 100% { transform: translateY(0); }
+  30%       { transform: translateY(-3px); }
+  60%       { transform: translateY(-1px); }
+}
+@keyframes wipe-in {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0% 0 0); }
+}
+@keyframes step-row-enter {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ── Leaflet dark ───────────────────────────────────────────────────────── */
+.leaflet-container { background: #060c14; font-family: var(--mono); }
+.leaflet-bar {
+  border: 1px solid var(--border2) !important;
+  box-shadow: var(--shadow-md) !important;
+  border-radius: 8px !important; overflow: hidden;
+}
+.leaflet-control-zoom a,
+.leaflet-draw-toolbar a {
+  background: var(--surface) !important;
+  border-bottom: 1px solid var(--border) !important;
+  color: var(--text2) !important;
+  width: 32px !important; height: 32px !important; line-height: 32px !important;
+  font-size: 14px !important;
+  display: flex !important; align-items: center !important; justify-content: center !important;
+  text-indent: 0 !important; background-image: none !important;
+  transition: all 0.15s !important;
+}
+.leaflet-control-zoom a:hover,
+.leaflet-draw-toolbar a:hover { background: var(--panel2) !important; color: var(--accent) !important; }
+.leaflet-draw-draw-polygon::after { content: "⬡"; font-size: 16px; }
+.leaflet-draw-edit-edit::after    { content: "✎"; font-size: 14px; }
+.leaflet-draw-edit-remove::after  { content: "✕"; font-size: 14px; }
+.leaflet-control-attribution {
+  background: rgba(6,8,11,0.75) !important; color: rgba(255,255,255,0.25) !important;
+  font-size: 9px !important; border-top-left-radius: 6px !important;
+}
+.leaflet-control-attribution a { color: rgba(255,255,255,0.3) !important; }
+.leaflet-tooltip {
+  background: var(--surface) !important; border: 1px solid var(--border2) !important;
+  color: var(--text) !important; font-family: var(--mono) !important;
+  font-size: 11px !important; border-radius: 6px !important;
+  box-shadow: var(--shadow-md) !important;
+}
+input[type="date"] { color-scheme: dark; }
+input[type="range"] { accent-color: var(--accent); }
+
+
+/* Satellite scan line — moves top→bottom over the map area */
+@keyframes scan-sweep {
+  0%   { top: 0%;   opacity: 0; }
+  5%   { opacity: 0.4; }
+  95%  { opacity: 0.4; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* Number digit flip — ticker-style */
+@keyframes digit-flip {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
+/* Accent bar wipe in from left */
+@keyframes bar-wipe {
+  from { transform: scaleX(0); transform-origin: left; }
+  to   { transform: scaleX(1); transform-origin: left; }
+}
+
+/* Gentle float for idle icons */
+@keyframes drift {
+  0%,100% { transform: translateY(0px)   rotate(0deg); }
+  33%      { transform: translateY(-2px)  rotate(0.5deg); }
+  66%      { transform: translateY(1px)   rotate(-0.3deg); }
+}
+
+/* Ping burst — used on step completion  */
+@keyframes step-ping {
+  0%   { box-shadow: 0 0 0   0   rgba(0,240,168,0.6); }
+  60%  { box-shadow: 0 0 0   8px rgba(0,240,168,0.15); }
+  100% { box-shadow: 0 0 0   14px rgba(0,240,168,0); }
+}
+
+/* Warning flash — 2 quick orange flashes then settles */
+@keyframes warn-flash {
+  0%,100% { background: transparent; }
+  20%,60% { background: rgba(251,191,36,0.12); }
+  40%,80% { background: transparent; }
+}
+
+/* Progress track shimmer */
+@keyframes track-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+/* ── Extra micro-animations ─────────────────────────────────────────────── */
+
+/* Radar sweep — rotates a conic gradient */
+@keyframes radar-sweep {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Signal bar bounce — individual bars get staggered scale */
+@keyframes bar-bounce {
+  0%,100% { transform: scaleY(0.35); }
+  50%      { transform: scaleY(1);    }
+}
+
+/* Typewriter cursor blink for log lines */
+@keyframes cursor-blink {
+  0%,49% { opacity: 1; }
+  50%,100% { opacity: 0; }
+}
+
+/* Data particle drift upward */
+@keyframes data-drift {
+  0%   { transform: translateY(0) translateX(0); opacity: 0.7; }
+  60%  { opacity: 0.4; }
+  100% { transform: translateY(-48px) translateX(var(--dx, 4px)); opacity: 0; }
+}
+
+/* Hex grid reveal — used for panel backgrounds */
+@keyframes hex-fade-in {
+  from { opacity: 0; transform: scale(0.9) rotate(-3deg); }
+  to   { opacity: 1; transform: scale(1)   rotate(0deg);  }
+}
+
+/* Step row slide-in from left */
+@keyframes step-enter {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Tick stamp — the checkmark pops in with a little overshoot */
+@keyframes tick-pop {
+  0%   { transform: scale(0) rotate(-30deg); opacity: 0; }
+  70%  { transform: scale(1.3) rotate(5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg);   opacity: 1; }
+}
+
+/* Log line slide-in from right */
+@keyframes log-enter {
+  from { opacity: 0; transform: translateX(8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Progress bar fill with shimmer highlight */
+@keyframes progress-fill {
+  from { width: 0%; }
+}
+
+/* Satellite ping — double-ring outward */
+@keyframes sat-ping {
+  0%   { transform: scale(0.6); opacity: 0.9; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* Floating data labels */
+@keyframes data-float {
+  0%,100% { transform: translateY(0px);  }
+  50%     { transform: translateY(-5px); }
+}
+
+/* AOI polygon draw-on */
+@keyframes stroke-in {
+  from { stroke-dashoffset: 500; }
+  to   { stroke-dashoffset: 0; }
+}
+
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}

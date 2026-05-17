@@ -1,0 +1,35 @@
+# ╔══════════════════════════════════════════════════════════════╗
+# ║  EPM (Environmental Pollution Monitor) — Python Dependencies ║
+# ║  Python 3.10.x required (tested on 3.10.11)                 ║
+# ║  Install: pip install -r requirements.txt                    ║
+# ╚══════════════════════════════════════════════════════════════╝
+
+# ── Web backend ────────────────────────────────────────────────
+fastapi==0.110.0
+uvicorn[standard]==0.29.0
+python-multipart==0.0.9
+pydantic==2.6.4
+sse-starlette==1.8.2        # Server-Sent Events for live pipeline logs
+
+# ── Geospatial & raster processing ────────────────────────────
+numpy==1.26.4
+rasterio==1.3.9              # Read/write GeoTIFF, masking, COG output
+shapely==2.0.3               # Polygon geometry, WKT, masking
+pyproj==3.6.1                # CRS reprojection for AOI polygon mask
+scipy==1.13.0                # binary_dilation for cloud mask expansion
+
+# ── Satellite data / STAC catalogue ───────────────────────────
+pystac-client==0.7.6         # Search Microsoft Planetary Computer STAC
+planetary-computer==1.0.0    # Sign asset URLs for Sentinel-2 download
+
+# ── Machine learning ───────────────────────────────────────────
+scikit-learn==1.4.2          # KMeans clustering for pollution zones
+
+# ── Visualization & tile serving ──────────────────────────────
+matplotlib==3.8.4            # Scientific colormaps (plasma, RdYlGn, etc.)
+Pillow==10.3.0               # PNG tile encoding for /tiles/{job}/{date}/{layer}
+
+# ── NOT included (intentionally) ──────────────────────────────
+# geopandas — not imported; shapely + rasterio handle all geometry
+# fiona      — not imported; causes GDAL binary issues on Windows
+# GDAL       — used indirectly via rasterio wheels (no manual install needed)
